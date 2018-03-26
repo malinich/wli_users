@@ -76,8 +76,8 @@ async def create_index():
 if __name__ == '__main__':
     app = main()
     tornado.platform.asyncio.AsyncIOMainLoop().install()
-    app.listen(3000)
-    asyncio.get_event_loop().run_until_complete(create_indexes())
+    app.listen(3005)
+    asyncio.get_event_loop().run_until_complete(create_index())
     asyncio.get_event_loop().run_forever()
     # server = tornado.httpserver.HTTPServer(app)
     # server.listen(3000)
