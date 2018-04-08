@@ -25,7 +25,7 @@ class Router:
 def validate_payload(schema: Type[Schema]):
     def decor(func):
         async def wrap(self: tornado.web.RequestHandler, *args, **kwargs):
-            row_data = self.request.arguments
+            row_data = self.payload
             json_data = \
                 {k: v[0] if len(v) <= 1 else v for k, v in row_data.items()}
             errors = schema(json_data).validate(json_data)

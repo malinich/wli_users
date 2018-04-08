@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from tornado import gen
 
 from apps.main.models import Users
@@ -17,8 +19,8 @@ class UserHandler(BaseHandler):
 
     @gen.coroutine
     def get(self, guid):
-        tram = yield Users.find_one(guid=guid)
-        self.write("tram %s" % tram)
+        tramp = yield Users.find_one({"guid": UUID(guid)})
+        self.write(Users.dump(tramp))
 
 
 @Router('/', name="users-list")
@@ -30,7 +32,6 @@ class UsersHandler(BaseHandler):
 
     @validate_payload(UserSchema)
     async def post(self, *args, **kwargs):
-        data = UserSchema.to_internal(self.request.arguments)
-        user = Users(**data)
+        user = Users(**self.payload)
         id_ = await user.commit()
-        self.write("user: %s" % id_.inserted_id)
+        self.write(id_.inserted_id)
