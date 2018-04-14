@@ -13,7 +13,7 @@ from utils import Router
 
 
 class WliApplication(Application):
-    db = AsyncIOMotorClient().wli
+    db = AsyncIOMotorClient(settings.MONGO_HOST).wli
     db_instance = MotorAsyncIOInstance()
     db_instance.init(db)
 
