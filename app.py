@@ -8,8 +8,8 @@ from umongo.document import MetaDocumentImplementation
 from umongo.frameworks import MotorAsyncIOInstance
 from umongo.template import MetaTemplate
 
-import settings
-from utils import Router
+from . import settings
+from .utils import Router
 
 
 class WliApplication(Application):

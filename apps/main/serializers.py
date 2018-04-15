@@ -1,7 +1,5 @@
 from marshmallow import Schema, fields, validate
 
-from apps.main.models import Users
-
 
 class UserSchema(Schema):
     email = fields.Email(required=True)
