@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import umongo
 from pymongo import MongoClient
 from umongo import Instance, Document, fields, validate
 

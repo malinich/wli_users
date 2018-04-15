@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import re
 
 import tornado.platform.asyncio
@@ -8,8 +9,10 @@ from umongo.document import MetaDocumentImplementation
 from umongo.frameworks import MotorAsyncIOInstance
 from umongo.template import MetaTemplate
 
-import settings
-from utils import Router
+from wli_users import settings
+from wli_users.utils import Router
+
+logger = logging.getLogger(__name__)
 
 
 class WliApplication(Application):
@@ -37,8 +40,7 @@ class MetaBaseModel(type):
     def __new__(cls, name, bases, attrs: dict, **kwargs):
         klass = super().__new__(cls, name, bases, attrs, **kwargs)
         if '__collection__' in attrs:
-            attrs['Meta'].collection = getattr(cls.db(),
-                                               attrs['__collection__'])
+            attrs['Meta'].collection = getattr(cls.db(), attrs['__collection__'])
         db_instance = cls.db_instance()
         klass = db_instance.register(klass)
         return klass

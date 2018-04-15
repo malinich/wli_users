@@ -1,8 +1,9 @@
+import uuid
+
+from marshmallow import validate
 from umongo import Document, fields
 
-from app import MetaBaseTemplate
-from marshmallow import validate
-import uuid
+from wli_users.app import MetaBaseTemplate
 
 
 class Users(Document, metaclass=MetaBaseTemplate):

@@ -2,10 +2,10 @@ from uuid import UUID
 
 from tornado import gen
 
-from apps.main.models import Users
-from apps.main.serializers import UserSchema
-from handlers import BaseHandler
-from utils import Router, validate_payload
+from wli_users.apps.main.serializers import UserSchema
+from wli_users.handlers import BaseHandler
+from wli_users.utils import Router, validate_payload
+from .models import Users
 
 
 @Router('/('
