@@ -34,4 +34,4 @@ class UsersHandler(BaseHandler):
     async def post(self, *args, **kwargs):
         user = Users(**self.payload)
         id_ = await user.commit()
-        self.write(id_.inserted_id)
+        self.write(str(id_.inserted_id))
