@@ -5,7 +5,7 @@ import tornado.web
 from marshmallow import Schema
 
 
-class Router:
+class Routers:
     _routes = []
 
     def __init__(self, url, name=None):

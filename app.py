@@ -10,7 +10,7 @@ from umongo.frameworks import MotorAsyncIOInstance
 from umongo.template import MetaTemplate
 
 from wli_users import settings
-from wli_users.utils import Router
+from wli_users.utils import Routers
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class WliApplication(Application):
     def configure_handlers(self):
         for app_path in settings.APPS:
             __import__(app_path, globals(), locals(), ['handlers'])
-        return Router.get_routes()
+        return Routers.get_routes()
 
 
 class MetaBaseModel(type):

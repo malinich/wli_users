@@ -5,13 +5,20 @@ from pprint import pprint
 import aiohttp
 import traceback
 
+import jwt
 import tornado.web
 from aiohttp import FormData
 
 from wli_users import settings
+from wli_users.settings import SECRET_KEY
 
 
 class BaseHandler(tornado.web.RequestHandler):
+
+    def get_current_user(self):
+        x_auth_token = self.request.headers.get("Auth-Token")
+        data = jwt.decode(x_auth_token, SECRET_KEY, algorithms="HS256")
+        return data.get('guid')
 
     @property
     def db(self):
@@ -29,14 +36,6 @@ class BaseHandler(tornado.web.RequestHandler):
         return data
 
     async def upload_files(self, files, guid):
-        # async with aiohttp.ClientSession(conn_timeout=10) as session:
-        #
-        #     res = await asyncio.gather(
-        #         *[await session.post(
-        #             settings.upload_service, data=f) for f in files]
-        #     )
-        #     res
-        # return res
         async with self.get_session() as session:
             data = FormData()
             data.add_field('data',
@@ -46,7 +45,6 @@ class BaseHandler(tornado.web.RequestHandler):
             res = await session.post(settings.upload_service, data=data)
         # tasks = [asyncio.Task(aiohttp.request("POST", settings.upload_service, data=f)) for f in files]
         # res = await asyncio.gather(*tasks)
-        pprint(res.json)
         return res
 
     def write_error(self, status_code, **kwargs):
