@@ -23,4 +23,4 @@ class Users(Document, metaclass=MetaBaseTemplate):
     def create_password(cls, passwd):
         m = hashlib.sha256()
         m.update(passwd)
-        return m.digest()
+        return m.hexdigest()

@@ -41,9 +41,10 @@ class UsersHandler(BaseHandler):
         payload = self.payload
         password = Users.create_password(payload.pop("password"))
         user = Users(**payload, password=password, guid=uuid.uuid4())
-        # files = await asyncio.ensure_future(
-        #     self.upload_files(self.request.files.get("picture"), guid=user.guid))
+        files = await asyncio.ensure_future(
+            self.upload_files(self.request.files.get("picture"), guid=user.guid))
 
+        print(files)
         id_ = await user.commit()
         self.write(str(id_.inserted_id))
 

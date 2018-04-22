@@ -42,7 +42,7 @@ class MetaBaseModel(type):
         if '__collection__' in attrs:
             attrs['Meta'].collection = getattr(cls.db(), attrs['__collection__'])
         db_instance = cls.db_instance()
-        # klass = db_instance.register(klass)
+        klass = db_instance.register(klass)
         return klass
 
     @staticmethod
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     app = main()
     tornado.platform.asyncio.AsyncIOMainLoop().install()
     app.listen(3005)
-    asyncio.get_event_loop().run_until_complete(create_index())
+    # asyncio.get_event_loop().run_until_complete(create_index())
     asyncio.get_event_loop().run_forever()
     # server = tornado.httpserver.HTTPServer(app)
     # server.listen(3000)
