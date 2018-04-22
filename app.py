@@ -42,7 +42,7 @@ class MetaBaseModel(type):
         if '__collection__' in attrs:
             attrs['Meta'].collection = getattr(cls.db(), attrs['__collection__'])
         db_instance = cls.db_instance()
-        klass = db_instance.register(klass)
+        # klass = db_instance.register(klass)
         return klass
 
     @staticmethod
@@ -65,7 +65,8 @@ def main():
 
 async def create_index():
     for app_path in settings.APPS:
-        models = __import__(app_path, globals(), locals(), ['models']).models
+        print("wli_users."+app_path)
+        models = __import__("wli_users."+app_path, globals(), locals(), ['models']).models
 
         for name in (m for m in dir(models) if re.match(r'[A-Z]', m)):
             model = getattr(models, name)

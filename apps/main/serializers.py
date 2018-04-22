@@ -5,6 +5,7 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
     guid = fields.UUID(dump_only=True)
     name = fields.String(validate=validate.Length(max=50), required=True)
+    picture = fields.URL()
 
     @classmethod
     def to_internal(cls, arguments):

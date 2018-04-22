@@ -1,5 +1,6 @@
 {
   "email": "admin@email.ru",
   "guid": "8a475202-70f7-432d-a933-28e9cc0b7940",
-  "name": "Igor Malinov"
+  "name": "Igor Malinov",
+  "password": "123"
 }

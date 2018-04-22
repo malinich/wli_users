@@ -1,6 +1,14 @@
+import asyncio
+import uuid
+from pprint import pprint
+
+import aiohttp
 import traceback
 
 import tornado.web
+from aiohttp import FormData
+
+from wli_users import settings
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -15,7 +23,31 @@ class BaseHandler(tornado.web.RequestHandler):
 
     @property
     def payload(self) -> dict:
-        return tornado.escape.json_decode(self.request.body)
+        body_data = self.request.body_arguments
+        data = \
+            {k: v[0] if len(v) <= 1 else v for k, v in body_data.items()}
+        return data
+
+    async def upload_files(self, files, guid):
+        # async with aiohttp.ClientSession(conn_timeout=10) as session:
+        #
+        #     res = await asyncio.gather(
+        #         *[await session.post(
+        #             settings.upload_service, data=f) for f in files]
+        #     )
+        #     res
+        # return res
+        async with self.get_session() as session:
+            data = FormData()
+            data.add_field('data',
+                           files[0]['body'],
+                           filename=files[0]['filename'], )
+            data.add_field("user", str(guid))
+            res = await session.post(settings.upload_service, data=data)
+        # tasks = [asyncio.Task(aiohttp.request("POST", settings.upload_service, data=f)) for f in files]
+        # res = await asyncio.gather(*tasks)
+        pprint(res.json)
+        return res
 
     def write_error(self, status_code, **kwargs):
         self.set_header("Content-Type", "application/json")
@@ -31,3 +63,6 @@ class BaseHandler(tornado.web.RequestHandler):
                 "code": status_code,
                 "message": self._reason,
             })
+
+    def get_session(self):
+        return aiohttp.ClientSession()
